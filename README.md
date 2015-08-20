@@ -17,7 +17,7 @@ Data structures (that functional data structures book will be useful here):
 * Functional (+ Array) heap, making invariants hold, all operations (insert, delete, delete subtree recursively)
 * Binary (+search) tree and all operations (insert, delete, traverse, from-to list, length, depth, k-th child) 
 
-Combinatorics (OCaml):
+Combinatorics (OCaml) [see combinatorics.ml]:
 * Generate all permutations of a string
 * Given a list of N people. On the first day, divide them into N/2 groups, each group contains two people. On the day 2, divide them into groups of two again... Do this every day, until day N-1. In a way such that all pairs of people has been groupmates once.
 * Generate the combinations of K distinct objects chosen from the N elements of a list. (+ other from OCaml 99 problems)
