@@ -7,7 +7,7 @@ Expression manipulation (in OCaml, see Compilers course):
 * For lambda expressions, determine equivalence
 * Given some grammar, determine longest expression generable (if finite)
 
-Functional primitives (OCaml):
+Functional primitives (OCaml) [see functional_primitives.ml]:
 * Memoisation wrapper. Optionally cache control.
 * Map, foldl, foldr, filter + tail recursive where appropriate; explain, write types
 
@@ -23,7 +23,6 @@ Combinatorics (OCaml):
 * Generate the combinations of K distinct objects chosen from the N elements of a list. (+ other from OCaml 99 problems)
 
 Misc:
-* Unix tools? (also for Google)
 * Given a set of strings, return a set of [lists of anagrams; pairs of palindromes; lists of strings with same acronyms]
 * Rotate array n times in constant space and linear time
 * Find nth element in merged sorted arrays

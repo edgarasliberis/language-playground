@@ -66,3 +66,53 @@ module MemoList = struct
       | Some (_, v) -> (memos#add (arg, v); v) in
     handle
 end
+
+
+module Primitives = struct
+  let rec foldl (f : 'a -> 'b -> 'b) (l : 'a list) (init : 'b) : 'b =
+    match l with
+    | [] -> init
+    | h :: t -> foldl f t (f h init);;
+
+  let reverse (l : 'a list) : 'a list =
+    let rec loop (xs : 'a list) (accum : 'a list) = 
+      match xs with
+      | [] -> accum
+      | h :: t -> loop t (h :: accum) in
+    loop l [];;
+
+  let rec map (f : 'a -> 'b) (l : 'a list) : 'b list =
+    match l with
+    | [] -> []
+    | h :: t -> f h :: map f t;;
+
+  let map_rev_accum (f : 'a -> 'b) (l : 'a list) : 'b list =
+    let rec loop (xs : 'a list) (accum : 'a list) = 
+      match xs with
+      | [] -> accum
+      | h :: t -> loop t (f h :: accum) in
+    loop l [];;
+
+  let map_f (f : 'a -> 'b) (l : 'a list) : 'b list =
+    foldl (fun x xs -> f x :: xs) l [];;
+
+  let rec filter (pred : 'a -> bool) (l : 'a list) : 'a list =
+    match l with
+    | [] -> []
+    | h :: t when pred h -> h :: filter pred t
+    | h :: t -> filter pred t;;
+
+  let filter_rev_f (pred : 'a -> bool) (l : 'a list) : 'a list =
+    foldl (fun x xs -> if pred x then x :: xs else xs) l [];;
+
+  let rec foldr (f : 'a -> 'b -> 'b) (l : 'a list) (init : 'b) : 'b =
+    match l with
+    | [] -> init
+    | h :: t -> f h (foldr f t init);;
+
+  let rec foldr_cps (f : 'a -> 'b -> 'b) (l : 'a list) (init : 'b) (continue_with : 'b -> 'c): 'c =
+    let f_cps = fun a b cont -> cont (f a b) in
+    match l with
+    | [] -> continue_with init
+    | h :: t -> foldr_cps f t init (fun res -> f_cps h res continue_with);;
+end
