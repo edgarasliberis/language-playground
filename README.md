@@ -22,7 +22,7 @@ Combinatorics (OCaml) [see combinatorics.ml]:
 * Given a list of N people. On the first day, divide them into N/2 groups, each group contains two people. On the day 2, divide them into groups of two again... Do this every day, until day N-1. In a way such that all pairs of people has been groupmates once.
 * Generate the combinations of K distinct objects chosen from the N elements of a list. (+ other from OCaml 99 problems)
 
-Misc:
+Misc [see misc.ml]:
 * Given a set of strings, return a set of [lists of anagrams; pairs of palindromes; lists of strings with same acronyms]
 * Rotate array n times in constant space and linear time
 * Find nth element in merged sorted arrays
