@@ -23,5 +23,12 @@ module Combinatorics = struct
     for day = 1 to n-1 do 
       result := (iterate_pairs (make_pair day) (n / 2)) :: !result
     done;
-    !result
+    !result;;
+
+  let rec combinations (k : int) (l : 'a list) : 'a list list =
+    let prepend_to_all (e : 'a) (p : ('a list) list) = List.map (fun xs -> e :: xs) p in
+    if k = 0 then [[]] else
+      match l with
+      | [] -> []
+      | h :: t -> List.rev_append (combinations k t) (prepend_to_all h (combinations (k - 1) t));;
 end
