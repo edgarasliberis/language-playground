@@ -15,7 +15,7 @@ module SillyPriorityQueue = struct
     q.tqueue <- [];;
 
   let pop q = 
-    (if q.tqueue != [] or q.queue = [] then normalise q);
+    (if q.tqueue != [] || q.queue = [] then normalise q);
     match q.queue with
     | [] -> failwith "can't pop from an empty queue"
     | h :: t -> q.queue <- t; h;;
@@ -52,5 +52,24 @@ module LinkedList = struct
       | Some {value = _; next = n} -> look n in
     look !l;;
 
-  (* TODO: delete, fold_left, map *)
+  let delete (l : 'a llist) (elem : 'a) = 
+    let rec loop curr parent =
+      match curr with
+      | None -> failwith "element was not found!"
+      | Some {value = v; next = n} when v = elem ->
+        (* Element was found in the current node *)
+        let Some p = parent in (* We know its 'Some' *)
+        p.next <- n; (* Remove the current node *)
+      | Some {value = _; next = n} -> loop n curr in
+    match !l with
+    | None -> failwith "can't delete from an empty list!"
+    | Some {value = v; next = _} when v = elem -> pop l
+    | Some {value = _; next = n} -> loop n !l;;
+
+  let fold_left (f : 'b -> 'a -> 'b) (init : 'b) (l : 'a llist) : 'b =
+    let rec loop (l : 'a llnode option) (accum : 'b) =
+      match l with
+      | None -> accum
+      | Some {value = v; next = n} -> loop n (f accum v) in
+    loop !l init;;
 end
