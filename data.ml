@@ -73,3 +73,50 @@ module LinkedList = struct
       | Some {value = v; next = n} -> loop n (f accum v) in
     loop !l init;;
 end
+
+module ArrayHeap = struct
+  type 'a heap = {mutable size : int; mutable data : 'a array};;
+
+  let singleton (elem : 'a) : 'a heap = {size = 1; data = Array.make 5000 elem};;
+
+  (* with which branch swap was made *)
+  type heapify_result = Left | Right | Neither;;
+
+  let heapify_node h i : heapify_result =
+    let swap i j =
+      let tmp = h.data.(i) in
+      h.data.(i) <- h.data.(j);
+      h.data.(j) <- tmp in
+
+    let {size = size; data = data} = h in
+    let l_child = 2 * i + 1 in
+    let r_child = 2 * i + 2 in
+    if l_child >= size then (* leaf node *) Neither
+    else if r_child >= size then begin
+      (* one child - left, which is a leaf node *)
+      (if data.(l_child) < data.(i) then swap i l_child); Left 
+    end
+    else begin
+      (* two children *)
+      if data.(l_child) < data.(i) && data.(l_child) < data.(r_child) then (
+        swap i l_child;
+        Left
+      ) else if data.(r_child) < data.(i) && data.(r_child) < data.(l_child) then (
+        swap i r_child;
+        Right
+      ) else Neither
+    end
+
+  let rec heapify_down (h : 'a heap) (i : int) : unit =
+    match heapify_node h i with
+    | Left -> heapify_down h (2 * i + 1)
+    | Right -> heapify_down h (2 * i + 2)
+    | Neither -> ();;
+
+  let rec heapify_up (h : 'a heap) (i : int) : unit =
+    let parent = (i - 1) / 2 in
+    match heapify_node h i with
+    | Left | Right -> if i != 0 then heapify_up h parent else ()
+    | Neither -> ();;
+
+end
