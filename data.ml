@@ -82,27 +82,26 @@ module ArrayHeap = struct
   (* with which branch swap was made *)
   type heapify_result = Left | Right | Neither;;
 
-  let heapify_node h i : heapify_result =
-    let swap i j =
-      let tmp = h.data.(i) in
-      h.data.(i) <- h.data.(j);
-      h.data.(j) <- tmp in
+  let swap h i j =
+    let tmp = h.data.(i) in
+    h.data.(i) <- h.data.(j);
+    h.data.(j) <- tmp;;
 
-    let {size = size; data = data} = h in
+  let heapify_node h i : heapify_result =
     let l_child = 2 * i + 1 in
     let r_child = 2 * i + 2 in
-    if l_child >= size then (* leaf node *) Neither
-    else if r_child >= size then begin
+    if l_child >= h.size then (* leaf node *) Neither
+    else if r_child >= h.size then begin
       (* one child - left, which is a leaf node *)
-      (if data.(l_child) < data.(i) then swap i l_child); Left 
+      (if h.data.(l_child) < h.data.(i) then swap h i l_child); Left 
     end
     else begin
       (* two children *)
-      if data.(l_child) < data.(i) && data.(l_child) < data.(r_child) then (
-        swap i l_child;
+      if h.data.(l_child) < h.data.(i) && h.data.(l_child) < h.data.(r_child) then (
+        swap h i l_child;
         Left
-      ) else if data.(r_child) < data.(i) && data.(r_child) < data.(l_child) then (
-        swap i r_child;
+      ) else if h.data.(r_child) < h.data.(i) && h.data.(r_child) < h.data.(l_child) then (
+        swap h i r_child;
         Right
       ) else Neither
     end
@@ -118,5 +117,21 @@ module ArrayHeap = struct
     match heapify_node h i with
     | Left | Right -> if i != 0 then heapify_up h parent else ()
     | Neither -> ();;
+
+  let push (h : 'a heap) (elem : 'a) : unit =
+    h.data.(h.size) <- elem;
+    h.size <- h.size + 1;
+    let parent = (h.size - 2) / 2 in
+    heapify_up h parent;;
+
+  let top (h : 'a heap) : 'a =
+    match h with
+    | {size = 0; data = _} -> failwith "empty heap"
+    | {size = _; data = data} -> data.(0)
+
+  let pop (h : 'a heap) : unit =
+    swap h 0 (h.size - 1);
+    h.size <- h.size - 1;
+    heapify_down h 0;;
 
 end

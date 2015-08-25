@@ -14,7 +14,7 @@ Functional primitives (OCaml) [see functional_primitives.ml]:
 Data structures (that functional data structures book will be useful here) [see data.ml]:
 * Priority queue using a stack
 * Linked list. 
-* Functional (+ Array) heap, making invariants hold, all operations (insert, delete, delete subtree recursively)
+* Array heap, making invariants hold, all operations.
 * Binary (+search) tree and all operations (insert, delete, traverse, from-to list, length, depth, k-th child) 
 
 Combinatorics (OCaml) [see combinatorics.ml]:
