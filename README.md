@@ -15,7 +15,7 @@ Data structures (that functional data structures book will be useful here) [see 
 * Priority queue using a stack
 * Linked list. 
 * Array heap, making invariants hold, all operations.
-* Binary (+search) tree and all operations (insert, delete, traverse, from-to list, length, depth, k-th child) 
+* Binary (+search) tree and all operations (insert, delete, traverse, to list, length, depth, k-th child) 
 
 Combinatorics (OCaml) [see combinatorics.ml]:
 * Generate all permutations of a string

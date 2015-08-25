@@ -135,3 +135,49 @@ module ArrayHeap = struct
     heapify_down h 0;;
 
 end
+
+
+module BST = struct
+  type 'a t = Leaf | Br of 'a * ('a t) * ('a t);;
+
+  let create () : 'a t = Leaf;;
+
+  let rec insert (t : 'a t) (elem : 'a) : 'a t = 
+    match t with
+    | Leaf -> Br (elem, Leaf, Leaf)
+    | Br (v, l, r) -> if elem < v then Br(v, insert l elem, r) else Br(v, l, insert r elem);;
+
+  let rec take_largest (t : 'a t) : ('a * 'a t) =
+    match t with
+    | Leaf -> failwith "empty tree"
+    | Br (v, l, Leaf) -> (v, l)
+    | Br (v, l, r) ->
+      let (lrg, rem) = take_largest r in
+      (lrg, Br(v, l, rem));;
+
+  let delete_root (t : 'a t) : 'a t =
+    match t with
+    | Leaf -> failwith "can't delete from an empty tree"
+    | Br (_, Leaf, Leaf) -> Leaf
+    | Br (_, Leaf, r) -> r
+    | Br (_, l, Leaf) -> l
+    | Br (_, l, r) ->
+      let (lrg, rem) = take_largest l in
+      Br (lrg, rem, r);;
+
+  let rec traverse (f : 'b -> 'a -> 'b -> 'b) (init : 'b) (t : 'a t) : 'b =
+    match t with
+    | Leaf -> init
+    | Br (v, l, r) -> f (traverse f init l) v (traverse f init r);;
+
+  let count = traverse (fun l -> fun v -> fun r -> l + 1 + r) 0;;
+  let sum = traverse (fun l -> fun v -> fun r -> l + v + r) 0;;
+  let inorder = traverse (fun l -> fun v -> fun r -> l @ [v] @ r) [];;
+  let preorder = traverse (fun l -> fun v -> fun r -> v :: (l @ r)) [];;
+  let postorder = traverse (fun l -> fun v -> fun r -> l @ r @ [v]) [];;
+  let maxdepth = traverse (fun l -> fun v -> fun r ->  1 + max l r) 0;;
+  let nth (t : 'a t) = List.nth (inorder t);; (* Inefficient, creates the whole list *)
+  let map (t : 'a t) (f : 'a -> 'b) =
+    traverse (fun l -> fun v -> fun r -> Br(f v, l, r)) Leaf t;;  
+
+end
