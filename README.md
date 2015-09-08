@@ -1,4 +1,4 @@
-# ocaml-playground
+# language-playground
 
 Expression manipulation (in OCaml, see Compilers course):
 * Implement expression evaluator for arithmetic ops, add operator precedence and variables;
@@ -27,3 +27,6 @@ Misc [see misc.ml]:
 * Rotate array n times in constant space and linear time
 * Find nth element in merged sorted arrays
 * Given a collection of lists, return one with minimum length / minimum sum of elements.
+
+Python:
+* Sieve of Erathostenes
